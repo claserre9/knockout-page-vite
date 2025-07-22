@@ -1,0 +1,21 @@
+{
+  "name": "knockout-page-vite",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/knockout": "^3.4.77",
+    "@types/page": "^1.11.9",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
+  },
+  "dependencies": {
+    "knockout": "^3.5.1",
+    "page": "^1.11.6"
+  }
+}
