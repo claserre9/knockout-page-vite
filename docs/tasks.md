@@ -16,8 +16,8 @@ This document contains a comprehensive list of improvement tasks for the Knockou
 
 3. [ ] Improve routing system
    - [ ] Add support for route parameters with type safety
-   - [ ] Implement nested routes for more complex UIs
-   - [ ] Add route guards for authentication and authorization
+   - [x] Implement nested routes for more complex UIs
+   - [x] Add route guards for authentication and authorization
    - [ ] Support for route-specific data loading
 
 4. [ ] Enhance middleware system

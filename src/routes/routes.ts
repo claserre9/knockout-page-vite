@@ -1,8 +1,19 @@
-import {renderView} from "../core/BaseViewModel";
-import {AppViewModel} from "../components/AppViewModel";
-import {NotFoundViewModel} from "../components/NotFoundViewModel";
-import {logPathMiddleware} from "../middlewares/middlewares";
-import {AboutViewModel} from "../components/AboutViewModel.ts";
+import { renderView } from "../core/BaseViewModel";
+import { AppViewModel } from "../components/AppViewModel";
+import { NotFoundViewModel } from "../components/NotFoundViewModel";
+import {
+    logPathMiddleware,
+    authGuard,
+    roleGuard,
+} from "../middlewares/middlewares";
+import { AboutViewModel } from "../components/AboutViewModel.ts";
+import { DashboardViewModel } from "../components/DashboardViewModel";
+import { DashboardHomeViewModel } from "../components/DashboardHomeViewModel";
+import { DashboardProfileViewModel } from "../components/DashboardProfileViewModel";
+import { DashboardSettingsViewModel } from "../components/DashboardSettingsViewModel";
+import { AdminViewModel } from "../components/AdminViewModel";
+import { LoginViewModel } from "../components/LoginViewModel";
+import { AccessDeniedViewModel } from "../components/AccessDeniedViewModel";
 
 /**
  * Route configuration interface
@@ -20,6 +31,15 @@ export const globalMiddleware = [
     logPathMiddleware
 ];
 
+const dashboardLayoutMiddleware = (
+    context: PageJS.Context,
+    next: () => void
+): void => {
+    const layout = renderView(DashboardViewModel, context);
+    context.state.layout = layout;
+    next();
+};
+
 /**
  * Application routes configuration
  */
@@ -31,6 +51,43 @@ export const routes: RouteConfig[] = [
     {
         path: "/about",
         handler: (context) => renderView(AboutViewModel, context)
+    },
+    {
+        path: "/dashboard",
+        middleware: [authGuard, dashboardLayoutMiddleware],
+        handler: (context) => {
+            const layout = context.state.layout as DashboardViewModel;
+            layout.renderContent(DashboardHomeViewModel, context);
+        }
+    },
+    {
+        path: "/dashboard/profile",
+        middleware: [authGuard, dashboardLayoutMiddleware],
+        handler: (context) => {
+            const layout = context.state.layout as DashboardViewModel;
+            layout.renderContent(DashboardProfileViewModel, context);
+        }
+    },
+    {
+        path: "/dashboard/settings",
+        middleware: [authGuard, dashboardLayoutMiddleware],
+        handler: (context) => {
+            const layout = context.state.layout as DashboardViewModel;
+            layout.renderContent(DashboardSettingsViewModel, context);
+        }
+    },
+    {
+        path: "/admin",
+        middleware: [authGuard, roleGuard("admin")],
+        handler: (context) => renderView(AdminViewModel, context)
+    },
+    {
+        path: "/login",
+        handler: (context) => renderView(LoginViewModel, context)
+    },
+    {
+        path: "/access-denied",
+        handler: (context) => renderView(AccessDeniedViewModel, context)
     },
     {
         // Catch-all route for 404 pages
