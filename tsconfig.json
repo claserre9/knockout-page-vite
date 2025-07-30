@@ -26,7 +26,8 @@
             "@components/*": ["components/*"],
             "@core/*": ["core/*"],
             "@middlewares/*": ["middlewares/*"],
-            "@routes/*": ["routes/*"]
+            "@routes/*": ["routes/*"],
+            "@store/*": ["store/*"]
         }
     },
     "include": ["src", "vite.config.ts"]

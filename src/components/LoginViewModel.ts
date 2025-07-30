@@ -1,10 +1,10 @@
 import { BaseViewModel } from '@core/BaseViewModel';
 import page from 'page';
+import { setAuth } from '@store/AppStore';
 
 export class LoginViewModel extends BaseViewModel {
     public performLogin = (): void => {
-        localStorage.setItem('auth_token', 'demo');
-        localStorage.setItem('user_role', 'admin');
+        setAuth('demo', 'admin');
         page.redirect('/dashboard');
     };
 
