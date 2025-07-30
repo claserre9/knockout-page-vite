@@ -1,7 +1,7 @@
-import {BaseViewModel, renderView} from "../core/BaseViewModel";
+import { BaseViewModel, renderView } from '../core/BaseViewModel';
 
 export class DashboardViewModel extends BaseViewModel {
-    private contentContainer = "dashboard-content";
+    private contentContainer = 'dashboard-content';
 
     constructor(context: PageJS.Context | undefined) {
         super(context);

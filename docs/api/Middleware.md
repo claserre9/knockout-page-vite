@@ -11,6 +11,7 @@ type MiddlewareFunction = (context: PageJS.Context, next: () => void) => void;
 ```
 
 **Parameters:**
+
 - `context`: The page.js context object containing route information
 - `next`: A function to call when the middleware is done, passing control to the next middleware or route handler
 
@@ -21,8 +22,14 @@ type MiddlewareFunction = (context: PageJS.Context, next: () => void) => void;
 Logs the current path to the console with styling:
 
 ```typescript
-export function logPathMiddleware(context: { path: string }, next: () => void): void {
-    console.log(`%c${context.path}`, 'color: white; background-color: blue; padding: 4px; border-radius: 4px;');
+export function logPathMiddleware(
+    context: { path: string },
+    next: () => void
+): void {
+    console.log(
+        `%c${context.path}`,
+        'color: white; background-color: blue; padding: 4px; border-radius: 4px;'
+    );
     next();
 }
 ```
@@ -42,8 +49,8 @@ export const globalMiddleware = [
 ];
 
 // In registerRoutes function:
-globalMiddleware.forEach(middleware => {
-    page("*", middleware);
+globalMiddleware.forEach((middleware) => {
+    page('*', middleware);
 });
 ```
 
@@ -64,10 +71,13 @@ Middleware can also be applied to specific routes:
 ### Authentication Middleware Example
 
 ```typescript
-export function authMiddleware(context: PageJS.Context, next: () => void): void {
+export function authMiddleware(
+    context: PageJS.Context,
+    next: () => void
+): void {
     // Check if user is authenticated
     const isAuthenticated = localStorage.getItem('auth_token') !== null;
-    
+
     if (isAuthenticated) {
         // User is authenticated, proceed to next middleware or route handler
         next();
@@ -82,18 +92,21 @@ export function authMiddleware(context: PageJS.Context, next: () => void): void 
 ### Data Loading Middleware Example
 
 ```typescript
-export function loadUserDataMiddleware(context: PageJS.Context, next: () => void): void {
+export function loadUserDataMiddleware(
+    context: PageJS.Context,
+    next: () => void
+): void {
     // Extract user ID from route parameters
     const userId = context.params.id;
-    
+
     // Fetch user data
     fetchUserData(userId)
-        .then(userData => {
+        .then((userData) => {
             // Attach user data to context for use in route handler
             context.state.userData = userData;
             next();
         })
-        .catch(error => {
+        .catch((error) => {
             console.error('Failed to load user data:', error);
             // Handle error (e.g., redirect to error page)
             page.redirect('/error');
@@ -104,7 +117,10 @@ export function loadUserDataMiddleware(context: PageJS.Context, next: () => void
 ### Error Handling Middleware Example
 
 ```typescript
-export function errorHandlingMiddleware(context: PageJS.Context, next: () => void): void {
+export function errorHandlingMiddleware(
+    context: PageJS.Context,
+    next: () => void
+): void {
     try {
         // Wrap next() in try/catch to catch synchronous errors
         next();

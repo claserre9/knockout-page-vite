@@ -7,7 +7,7 @@ This document provides examples of common patterns for creating and using view m
 The simplest view model extends `BaseViewModel` and sets a template:
 
 ```typescript
-import { BaseViewModel } from "../core/BaseViewModel";
+import { BaseViewModel } from '../core/BaseViewModel';
 
 export class SimpleViewModel extends BaseViewModel {
     constructor(context: PageJS.Context | undefined) {
@@ -27,14 +27,14 @@ export class SimpleViewModel extends BaseViewModel {
 Using Knockout observables for reactive data:
 
 ```typescript
-import { BaseViewModel } from "../core/BaseViewModel";
-import * as ko from "knockout";
+import { BaseViewModel } from '../core/BaseViewModel';
+import * as ko from 'knockout';
 
 export class CounterViewModel extends BaseViewModel {
     // Observable properties
     public count = ko.observable(0);
     public message = ko.computed(() => `Current count: ${this.count()}`);
-    
+
     constructor(context: PageJS.Context | undefined) {
         super(context);
         this.setTemplate(`
@@ -46,15 +46,15 @@ export class CounterViewModel extends BaseViewModel {
             </div>
         `);
     }
-    
+
     // Methods bound to UI events
     public increment = () => {
         this.count(this.count() + 1);
-    }
-    
+    };
+
     public decrement = () => {
         this.count(this.count() - 1);
-    }
+    };
 }
 ```
 
@@ -63,23 +63,23 @@ export class CounterViewModel extends BaseViewModel {
 Accessing route parameters from the context:
 
 ```typescript
-import { BaseViewModel } from "../core/BaseViewModel";
-import * as ko from "knockout";
+import { BaseViewModel } from '../core/BaseViewModel';
+import * as ko from 'knockout';
 
 export class UserViewModel extends BaseViewModel {
-    public userId = ko.observable<string>("");
+    public userId = ko.observable<string>('');
     public userDetails = ko.observable<any>(null);
     public isLoading = ko.observable<boolean>(true);
-    
+
     constructor(context: PageJS.Context | undefined) {
         super(context);
-        
+
         // Extract user ID from route parameters
         if (context && context.params.id) {
             this.userId(context.params.id);
             this.loadUserData(context.params.id);
         }
-        
+
         this.setTemplate(`
             <div class="user-view">
                 <h1>User Details</h1>
@@ -103,21 +103,21 @@ export class UserViewModel extends BaseViewModel {
             </div>
         `);
     }
-    
+
     private loadUserData(userId: string): void {
         // Simulate API call
         setTimeout(() => {
             // Mock user data (in a real app, this would come from an API)
-            if (userId === "123") {
+            if (userId === '123') {
                 this.userDetails({
                     id: userId,
-                    name: "John Doe",
-                    email: "john.doe@example.com"
+                    name: 'John Doe',
+                    email: 'john.doe@example.com',
                 });
             } else {
                 this.userDetails(null); // User not found
             }
-            
+
             this.isLoading(false);
         }, 1000);
     }
@@ -129,20 +129,20 @@ export class UserViewModel extends BaseViewModel {
 Handling form input and submission:
 
 ```typescript
-import { BaseViewModel } from "../core/BaseViewModel";
-import * as ko from "knockout";
+import { BaseViewModel } from '../core/BaseViewModel';
+import * as ko from 'knockout';
 
 export class ContactFormViewModel extends BaseViewModel {
     // Form fields
-    public name = ko.observable<string>("");
-    public email = ko.observable<string>("");
-    public message = ko.observable<string>("");
-    
+    public name = ko.observable<string>('');
+    public email = ko.observable<string>('');
+    public message = ko.observable<string>('');
+
     // Form state
     public isSubmitting = ko.observable<boolean>(false);
     public isSubmitted = ko.observable<boolean>(false);
     public errors = ko.observableArray<string>([]);
-    
+
     constructor(context: PageJS.Context | undefined) {
         super(context);
         this.setTemplate(`
@@ -186,48 +186,48 @@ export class ContactFormViewModel extends BaseViewModel {
             </div>
         `);
     }
-    
+
     public submitForm = (): void => {
         // Reset errors
         this.errors([]);
-        
+
         // Validate form
         if (!this.name()) {
-            this.errors.push("Name is required");
+            this.errors.push('Name is required');
         }
-        
+
         if (!this.email()) {
-            this.errors.push("Email is required");
+            this.errors.push('Email is required');
         } else if (!this.isValidEmail(this.email())) {
-            this.errors.push("Please enter a valid email address");
+            this.errors.push('Please enter a valid email address');
         }
-        
+
         if (!this.message()) {
-            this.errors.push("Message is required");
+            this.errors.push('Message is required');
         }
-        
+
         // If there are errors, don't submit
         if (this.errors().length > 0) {
             return;
         }
-        
+
         // Submit form
         this.isSubmitting(true);
-        
+
         // Simulate API call
         setTimeout(() => {
             // In a real app, you would send the data to a server here
-            console.log("Form submitted:", {
+            console.log('Form submitted:', {
                 name: this.name(),
                 email: this.email(),
-                message: this.message()
+                message: this.message(),
             });
-            
+
             this.isSubmitting(false);
             this.isSubmitted(true);
         }, 1500);
-    }
-    
+    };
+
     private isValidEmail(email: string): boolean {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
@@ -240,26 +240,26 @@ export class ContactFormViewModel extends BaseViewModel {
 Creating a parent view model that contains child components:
 
 ```typescript
-import { BaseViewModel } from "../core/BaseViewModel";
-import * as ko from "knockout";
+import { BaseViewModel } from '../core/BaseViewModel';
+import * as ko from 'knockout';
 
 // Child component view model
 class TabViewModel extends BaseViewModel {
     public title: string;
     public content: string;
     public isActive = ko.observable<boolean>(false);
-    
+
     constructor(title: string, content: string) {
         super();
         this.title = title;
         this.content = content;
         this.isSubTemplate = true; // Mark as sub-template
     }
-    
+
     public activate(): void {
         this.isActive(true);
     }
-    
+
     public deactivate(): void {
         this.isActive(false);
     }
@@ -269,22 +269,22 @@ class TabViewModel extends BaseViewModel {
 export class TabsViewModel extends BaseViewModel {
     public tabs: TabViewModel[] = [];
     public activeTab = ko.observable<TabViewModel | null>(null);
-    
+
     constructor(context: PageJS.Context | undefined) {
         super(context);
-        
+
         // Create tabs
         this.tabs = [
-            new TabViewModel("Home", "This is the home tab content."),
-            new TabViewModel("Profile", "This is the profile tab content."),
-            new TabViewModel("Settings", "This is the settings tab content.")
+            new TabViewModel('Home', 'This is the home tab content.'),
+            new TabViewModel('Profile', 'This is the profile tab content.'),
+            new TabViewModel('Settings', 'This is the settings tab content.'),
         ];
-        
+
         // Set initial active tab
         if (this.tabs.length > 0) {
             this.setActiveTab(this.tabs[0]);
         }
-        
+
         this.setTemplate(`
             <div class="tabs-container">
                 <h1>Tabs Example</h1>
@@ -310,17 +310,17 @@ export class TabsViewModel extends BaseViewModel {
             </div>
         `);
     }
-    
+
     public setActiveTab = (tab: TabViewModel): void => {
         // Deactivate current tab
         if (this.activeTab()) {
             this.activeTab()!.deactivate();
         }
-        
+
         // Activate new tab
         tab.activate();
         this.activeTab(tab);
-    }
+    };
 }
 ```
 
@@ -329,16 +329,16 @@ export class TabsViewModel extends BaseViewModel {
 Implementing custom behavior for lifecycle events:
 
 ```typescript
-import { BaseViewModel } from "../core/BaseViewModel";
-import * as ko from "knockout";
+import { BaseViewModel } from '../core/BaseViewModel';
+import * as ko from 'knockout';
 
 export class LifecycleViewModel extends BaseViewModel {
     public logs = ko.observableArray<string>([]);
-    
+
     constructor(context: PageJS.Context | undefined) {
         super(context);
-        this.addLog("Constructor called");
-        
+        this.addLog('Constructor called');
+
         this.setTemplate(`
             <div class="lifecycle-demo">
                 <h1>Lifecycle Hooks Demo</h1>
@@ -352,37 +352,37 @@ export class LifecycleViewModel extends BaseViewModel {
             </div>
         `);
     }
-    
+
     // Override onTemplateRendered hook
     protected onTemplateRendered(): void {
-        this.addLog("onTemplateRendered called");
-        
+        this.addLog('onTemplateRendered called');
+
         // Set up any DOM-dependent initialization here
-        this.addLog("View fully initialized");
+        this.addLog('View fully initialized');
     }
-    
+
     // Custom method to recreate the view
     public recreate = (): void => {
         if (this.isDestroyed) {
-            this.addLog("Recreating view");
-            this.render("app");
+            this.addLog('Recreating view');
+            this.render('app');
         } else {
-            this.addLog("View is already active");
+            this.addLog('View is already active');
         }
-    }
-    
+    };
+
     // Override destroy to add custom cleanup
     public destroy(): void {
-        this.addLog("destroy called");
-        
+        this.addLog('destroy called');
+
         // Perform any custom cleanup here
-        
+
         // Call the parent destroy method
         super.destroy();
-        
-        this.addLog("View destroyed");
+
+        this.addLog('View destroyed');
     }
-    
+
     private addLog(message: string): void {
         const timestamp = new Date().toLocaleTimeString();
         this.logs.push(`[${timestamp}] ${message}`);

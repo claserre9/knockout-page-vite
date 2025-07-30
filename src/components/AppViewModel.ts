@@ -1,7 +1,6 @@
-import {BaseViewModel} from "../core/BaseViewModel";
+import { BaseViewModel } from '../core/BaseViewModel';
 
-export class AppViewModel extends BaseViewModel{
-
+export class AppViewModel extends BaseViewModel {
     constructor(context: PageJS.Context | undefined) {
         super(context);
         this.setTemplate(`
@@ -15,4 +14,4 @@ export class AppViewModel extends BaseViewModel{
             </div>
         `);
     }
- }
+}

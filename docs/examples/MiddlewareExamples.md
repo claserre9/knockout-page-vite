@@ -8,25 +8,26 @@ A simple middleware that logs route navigation:
 
 ```typescript
 // middlewares/loggingMiddleware.ts
-export function loggingMiddleware(context: PageJS.Context, next: () => void): void {
+export function loggingMiddleware(
+    context: PageJS.Context,
+    next: () => void
+): void {
     const timestamp = new Date().toISOString();
     console.log(`[${timestamp}] Navigating to: ${context.path}`);
     next();
 }
 
 // Usage in routes.ts
-import { loggingMiddleware } from "../middlewares/loggingMiddleware";
+import { loggingMiddleware } from '../middlewares/loggingMiddleware';
 
-export const globalMiddleware = [
-    loggingMiddleware
-];
+export const globalMiddleware = [loggingMiddleware];
 
 export const registerRoutes = (page: PageJS.Static): void => {
     // Register global middleware
-    globalMiddleware.forEach(middleware => {
-        page("*", middleware);
+    globalMiddleware.forEach((middleware) => {
+        page('*', middleware);
     });
-    
+
     // Register routes...
 };
 ```
@@ -37,10 +38,13 @@ Enhanced logging with styled console output:
 
 ```typescript
 // middlewares/styledLoggingMiddleware.ts
-export function styledLoggingMiddleware(context: PageJS.Context, next: () => void): void {
+export function styledLoggingMiddleware(
+    context: PageJS.Context,
+    next: () => void
+): void {
     // Define styles for different route types
     let style = 'color: white; padding: 4px; border-radius: 4px;';
-    
+
     if (context.path.startsWith('/admin')) {
         style += ' background-color: #d9534f;'; // Red for admin routes
     } else if (context.path.startsWith('/user')) {
@@ -50,7 +54,7 @@ export function styledLoggingMiddleware(context: PageJS.Context, next: () => voi
     } else {
         style += ' background-color: #f0ad4e;'; // Orange for other routes
     }
-    
+
     console.log(`%c${context.path}`, style);
     next();
 }
@@ -65,48 +69,51 @@ Middleware for checking user authentication:
 import page from 'page';
 
 // Simple authentication check
-export function authMiddleware(context: PageJS.Context, next: () => void): void {
+export function authMiddleware(
+    context: PageJS.Context,
+    next: () => void
+): void {
     const authToken = localStorage.getItem('auth_token');
-    
+
     if (authToken) {
         // User is authenticated, proceed to next middleware or route handler
         next();
     } else {
         // User is not authenticated, redirect to login page
         console.warn('Authentication required. Redirecting to login page.');
-        
+
         // Store the original URL to redirect back after login
         localStorage.setItem('auth_redirect', context.path);
-        
+
         page.redirect('/login');
     }
 }
 
 // Usage in routes.ts
-import { authMiddleware } from "../middlewares/authMiddleware";
+import { authMiddleware } from '../middlewares/authMiddleware';
 
 export const routes = [
     // Public routes
     {
-        path: "/",
-        handler: (context) => renderView(HomeViewModel, context)
+        path: '/',
+        handler: (context) => renderView(HomeViewModel, context),
     },
     {
-        path: "/login",
-        handler: (context) => renderView(LoginViewModel, context)
+        path: '/login',
+        handler: (context) => renderView(LoginViewModel, context),
     },
-    
+
     // Protected routes
     {
-        path: "/profile",
+        path: '/profile',
         middleware: [authMiddleware],
-        handler: (context) => renderView(ProfileViewModel, context)
+        handler: (context) => renderView(ProfileViewModel, context),
     },
     {
-        path: "/settings",
+        path: '/settings',
         middleware: [authMiddleware],
-        handler: (context) => renderView(SettingsViewModel, context)
-    }
+        handler: (context) => renderView(SettingsViewModel, context),
+    },
 ];
 ```
 
@@ -133,9 +140,9 @@ function getCurrentUser() {
 
 // Role-based authorization middleware factory
 export function requireRole(requiredRole: string) {
-    return function(context: PageJS.Context, next: () => void): void {
+    return function (context: PageJS.Context, next: () => void): void {
         const user = getCurrentUser();
-        
+
         if (user && user.role === requiredRole) {
             // User has the required role, proceed
             next();
@@ -148,23 +155,23 @@ export function requireRole(requiredRole: string) {
 }
 
 // Usage in routes.ts
-import { authMiddleware } from "../middlewares/authMiddleware";
-import { requireRole } from "../middlewares/roleMiddleware";
+import { authMiddleware } from '../middlewares/authMiddleware';
+import { requireRole } from '../middlewares/roleMiddleware';
 
 export const routes = [
     // Admin routes
     {
-        path: "/admin",
+        path: '/admin',
         middleware: [authMiddleware, requireRole('admin')],
-        handler: (context) => renderView(AdminViewModel, context)
+        handler: (context) => renderView(AdminViewModel, context),
     },
-    
+
     // Moderator routes
     {
-        path: "/moderator",
+        path: '/moderator',
         middleware: [authMiddleware, requireRole('moderator')],
-        handler: (context) => renderView(ModeratorViewModel, context)
-    }
+        handler: (context) => renderView(ModeratorViewModel, context),
+    },
 ];
 ```
 
@@ -184,7 +191,7 @@ export function loadData<T>(
     return function(context: PageJS.Context, next: () => void): void {
         // Set loading state
         context.state.isLoading = true;
-        
+
         dataLoader(context)
             .then(data => {
                 // Store the loaded data in context.state
@@ -239,7 +246,7 @@ export const routes = [
         ],
         handler: (context) => renderView(UserProfileViewModel, context)
     },
-    
+
     // Product details with data loading
     {
         path: "/product/:id",
@@ -256,20 +263,20 @@ export const routes = [
 // In UserProfileViewModel.ts
 constructor(context: PageJS.Context | undefined) {
     super(context);
-    
+
     // Access the loaded data from context
     if (context && context.state.userData) {
         this.userData(context.state.userData);
     }
-    
+
     // Check for loading state
     this.isLoading(context && context.state.isLoading === true);
-    
+
     // Check for errors
     if (context && context.state.error) {
         this.error(context.state.error.message);
     }
-    
+
     // Set template...
 }
 ```
@@ -286,19 +293,19 @@ export function errorHandlingMiddleware(context: PageJS.Context, next: () => voi
     try {
         // Set up error handler for unhandled promise rejections
         const originalOnUnhandledRejection = window.onunhandledrejection;
-        
+
         window.onunhandledrejection = function(event) {
             console.error('Unhandled promise rejection:', event.reason);
             context.state.error = event.reason;
             page.redirect('/error');
-            
+
             // Prevent default handling
             event.preventDefault();
         };
-        
+
         // Call next middleware or route handler
         next();
-        
+
         // Restore original handler
         window.onunhandledrejection = originalOnUnhandledRejection;
     } catch (error) {
@@ -329,10 +336,10 @@ export const routes = [
 // In ErrorViewModel.ts
 constructor(context: PageJS.Context | undefined) {
     super(context);
-    
+
     // Get error from context
     let errorMessage = 'An unknown error occurred';
-    
+
     if (context && context.state.error) {
         if (typeof context.state.error === 'string') {
             errorMessage = context.state.error;
@@ -342,9 +349,9 @@ constructor(context: PageJS.Context | undefined) {
             errorMessage = context.state.error.toString();
         }
     }
-    
+
     this.errorMessage = errorMessage;
-    
+
     this.setTemplate(`
         <div class="error-page">
             <h1>Error</h1>
@@ -365,10 +372,13 @@ Middleware for tracking page views and events:
 
 ```typescript
 // middlewares/analyticsMiddleware.ts
-export function analyticsMiddleware(context: PageJS.Context, next: () => void): void {
+export function analyticsMiddleware(
+    context: PageJS.Context,
+    next: () => void
+): void {
     // Track page view
     trackPageView(context.path);
-    
+
     // Continue to next middleware or route handler
     next();
 }
@@ -378,31 +388,38 @@ function trackPageView(path: string): void {
     // Example implementation for Google Analytics
     if (typeof window.gtag === 'function') {
         window.gtag('config', 'UA-XXXXXXXX-X', {
-            'page_path': path
+            page_path: path,
         });
     }
-    
+
     // Example implementation for custom analytics
     console.log(`[Analytics] Page view: ${path}`);
 }
 
 // Helper function to track events
-export function trackEvent(category: string, action: string, label?: string, value?: number): void {
+export function trackEvent(
+    category: string,
+    action: string,
+    label?: string,
+    value?: number
+): void {
     // Example implementation for Google Analytics
     if (typeof window.gtag === 'function') {
         window.gtag('event', action, {
-            'event_category': category,
-            'event_label': label,
-            'value': value
+            event_category: category,
+            event_label: label,
+            value: value,
         });
     }
-    
+
     // Example implementation for custom analytics
-    console.log(`[Analytics] Event: ${category} / ${action} / ${label || ''} / ${value || ''}`);
+    console.log(
+        `[Analytics] Event: ${category} / ${action} / ${label || ''} / ${value || ''}`
+    );
 }
 
 // Usage in routes.ts
-import { analyticsMiddleware } from "../middlewares/analyticsMiddleware";
+import { analyticsMiddleware } from '../middlewares/analyticsMiddleware';
 
 export const globalMiddleware = [
     analyticsMiddleware,
@@ -410,18 +427,23 @@ export const globalMiddleware = [
 ];
 
 // Usage in a view model
-import { trackEvent } from "../middlewares/analyticsMiddleware";
+import { trackEvent } from '../middlewares/analyticsMiddleware';
 
 export class ProductViewModel extends BaseViewModel {
     // ...
-    
+
     public addToCart = () => {
         // Add product to cart
         cartService.addItem(this.productId(), this.quantity());
-        
+
         // Track the event
-        trackEvent('Ecommerce', 'Add to Cart', this.productName(), this.price());
-    }
+        trackEvent(
+            'Ecommerce',
+            'Add to Cart',
+            this.productName(),
+            this.price()
+        );
+    };
 }
 ```
 
@@ -439,31 +461,31 @@ interface CacheEntry<T> {
 class CacheService {
     private cache: Map<string, CacheEntry<any>> = new Map();
     private defaultTTL: number = 5 * 60 * 1000; // 5 minutes in milliseconds
-    
+
     public get<T>(key: string): T | null {
         const entry = this.cache.get(key);
-        
+
         if (!entry) {
             return null;
         }
-        
+
         const now = Date.now();
         if (now - entry.timestamp > this.defaultTTL) {
             // Entry has expired
             this.cache.delete(key);
             return null;
         }
-        
+
         return entry.data;
     }
-    
+
     public set<T>(key: string, data: T): void {
         this.cache.set(key, {
             data,
-            timestamp: Date.now()
+            timestamp: Date.now(),
         });
     }
-    
+
     public clear(): void {
         this.cache.clear();
     }
@@ -478,10 +500,10 @@ export function withCache<T>(
     getCacheKey: (context: PageJS.Context) => string,
     dataKey: string = 'data'
 ) {
-    return function(context: PageJS.Context, next: () => void): void {
+    return function (context: PageJS.Context, next: () => void): void {
         const cacheKey = getCacheKey(context);
         const cachedData = cacheService.get<T>(cacheKey);
-        
+
         if (cachedData) {
             // Use cached data
             console.log(`[Cache] Using cached data for: ${cacheKey}`);
@@ -489,22 +511,22 @@ export function withCache<T>(
             next();
             return;
         }
-        
+
         // No cached data, load from source
         console.log(`[Cache] Loading fresh data for: ${cacheKey}`);
         context.state.isLoading = true;
-        
+
         dataLoader(context)
-            .then(data => {
+            .then((data) => {
                 // Store in cache
                 cacheService.set(cacheKey, data);
-                
+
                 // Store in context
                 context.state[dataKey] = data;
                 context.state.isLoading = false;
                 next();
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error(`Failed to load ${dataKey}:`, error);
                 context.state.error = error;
                 context.state.isLoading = false;
@@ -514,22 +536,22 @@ export function withCache<T>(
 }
 
 // Usage in routes.ts
-import { withCache } from "../middlewares/cacheMiddleware";
-import { loadProductData } from "../services/productService";
+import { withCache } from '../middlewares/cacheMiddleware';
+import { loadProductData } from '../services/productService';
 
 export const routes = [
     // Product details with cached data loading
     {
-        path: "/product/:id",
+        path: '/product/:id',
         middleware: [
             withCache(
                 (context) => loadProductData(context.params.id),
                 (context) => `product_${context.params.id}`,
                 'productData'
-            )
+            ),
         ],
-        handler: (context) => renderView(ProductViewModel, context)
-    }
+        handler: (context) => renderView(ProductViewModel, context),
+    },
 ];
 ```
 
@@ -539,54 +561,51 @@ Example of combining multiple middleware for a complex route:
 
 ```typescript
 // routes.ts
-import { authMiddleware } from "../middlewares/authMiddleware";
-import { requireRole } from "../middlewares/roleMiddleware";
-import { withCache } from "../middlewares/cacheMiddleware";
-import { analyticsMiddleware } from "../middlewares/analyticsMiddleware";
-import { errorHandlingMiddleware } from "../middlewares/errorHandlingMiddleware";
-import { loadUserData } from "../services/userService";
+import { authMiddleware } from '../middlewares/authMiddleware';
+import { requireRole } from '../middlewares/roleMiddleware';
+import { withCache } from '../middlewares/cacheMiddleware';
+import { analyticsMiddleware } from '../middlewares/analyticsMiddleware';
+import { errorHandlingMiddleware } from '../middlewares/errorHandlingMiddleware';
+import { loadUserData } from '../services/userService';
 
 // Global middleware applied to all routes
-export const globalMiddleware = [
-    errorHandlingMiddleware,
-    analyticsMiddleware
-];
+export const globalMiddleware = [errorHandlingMiddleware, analyticsMiddleware];
 
 export const routes = [
     // Complex route with multiple middleware
     {
-        path: "/admin/user/:id",
+        path: '/admin/user/:id',
         middleware: [
             // Check authentication
             authMiddleware,
-            
+
             // Check authorization
             requireRole('admin'),
-            
+
             // Load user data with caching
             withCache(
                 (context) => loadUserData(context.params.id),
                 (context) => `admin_user_${context.params.id}`,
                 'userData'
             ),
-            
+
             // Custom middleware for this route
             (context, next) => {
                 console.log(`Admin viewing user: ${context.params.id}`);
-                
+
                 // Add audit log
                 auditService.log({
                     action: 'view_user',
                     userId: context.params.id,
                     adminId: getCurrentUser().id,
-                    timestamp: new Date()
+                    timestamp: new Date(),
                 });
-                
+
                 next();
-            }
+            },
         ],
-        handler: (context) => renderView(AdminUserViewModel, context)
-    }
+        handler: (context) => renderView(AdminUserViewModel, context),
+    },
 ];
 ```
 
