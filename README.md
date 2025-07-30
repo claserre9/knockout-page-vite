@@ -91,6 +91,7 @@ Comprehensive documentation is available in the [docs](docs) directory:
 - **Component-Based Architecture**: Build your application using reusable view models
 - **Declarative Routing**: Define routes with support for parameters and middleware
 - **Middleware System**: Add cross-cutting concerns like authentication and logging
+- **Nested Routes and Guards**: Create complex layouts with protected routes
 - **TypeScript Support**: Full type safety for your application code
 - **Fast Development**: Instant server start and hot module replacement with Vite
 
