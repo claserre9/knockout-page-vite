@@ -19,8 +19,8 @@ constructor(context: PageJS.Context | undefined = undefined)
 ## Properties
 
 | Property        | Type                          | Description                                            |
-| --------------- | ----------------------------- | ------------------------------------------------------ |
-| `template`      | `string \| null`              | The HTML template for the view.                        |
+| --------------- | ----------------------------- | ------------------------------------------------------ | ------------------------------- |
+| `template`      | `string                       | undefined`                                             | The HTML template for the view. |
 | `context`       | `PageJS.Context \| undefined` | The current routing context.                           |
 | `selector`      | `string \| null`              | The DOM selector where the view is rendered.           |
 | `isSubTemplate` | `boolean`                     | Indicates if this is a sub-template.                   |
@@ -49,7 +49,7 @@ Renders the view into the specified container.
 ### renderTemplate
 
 ```typescript
-public renderTemplate(template: string | null, context: PageJS.Context | undefined = undefined, selector = "app"): this
+public renderTemplate(template: string, context: PageJS.Context | undefined = undefined, selector = "app"): this
 ```
 
 Sets the template and renders it in the specified container.
@@ -97,7 +97,7 @@ Gets the current context of the view.
 ### setTemplate
 
 ```typescript
-public setTemplate(template: string | null): this
+public setTemplate(template: string): this
 ```
 
 Sets the template for the view.

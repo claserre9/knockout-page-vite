@@ -1,19 +1,19 @@
-import { renderView } from '../core/BaseViewModel';
-import { AppViewModel } from '../components/AppViewModel';
-import { NotFoundViewModel } from '../components/NotFoundViewModel';
+import { renderView } from '@core/BaseViewModel';
+import { AppViewModel } from '@components/AppViewModel';
+import { NotFoundViewModel } from '@components/NotFoundViewModel';
 import {
     logPathMiddleware,
     authGuard,
     roleGuard,
-} from '../middlewares/middlewares';
-import { AboutViewModel } from '../components/AboutViewModel.ts';
-import { DashboardViewModel } from '../components/DashboardViewModel';
-import { DashboardHomeViewModel } from '../components/DashboardHomeViewModel';
-import { DashboardProfileViewModel } from '../components/DashboardProfileViewModel';
-import { DashboardSettingsViewModel } from '../components/DashboardSettingsViewModel';
-import { AdminViewModel } from '../components/AdminViewModel';
-import { LoginViewModel } from '../components/LoginViewModel';
-import { AccessDeniedViewModel } from '../components/AccessDeniedViewModel';
+} from '@middlewares/middlewares';
+import { AboutViewModel } from '@components/AboutViewModel.ts';
+import { DashboardViewModel } from '@components/DashboardViewModel';
+import { DashboardHomeViewModel } from '@components/DashboardHomeViewModel';
+import { DashboardProfileViewModel } from '@components/DashboardProfileViewModel';
+import { DashboardSettingsViewModel } from '@components/DashboardSettingsViewModel';
+import { AdminViewModel } from '@components/AdminViewModel';
+import { LoginViewModel } from '@components/LoginViewModel';
+import { AccessDeniedViewModel } from '@components/AccessDeniedViewModel';
 
 /**
  * Route configuration interface

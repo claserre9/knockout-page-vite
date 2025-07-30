@@ -1,7 +1,7 @@
 import { applyBindings, cleanNode, dataFor } from 'knockout';
 
 export class BaseViewModel {
-    protected template: string | null = null;
+    protected template?: string;
     protected context: PageJS.Context | undefined;
     protected selector: string | null = null;
     protected isSubTemplate = false;
@@ -51,7 +51,7 @@ export class BaseViewModel {
      * @returns The instance of BaseViewModel to allow method chaining.
      */
     public renderTemplate(
-        template: string | null,
+        template: string,
         context: PageJS.Context | undefined = undefined,
         selector = 'app'
     ): this {
@@ -103,7 +103,7 @@ export class BaseViewModel {
      * @param template - The template HTML.
      * @returns The instance of BaseViewModel to allow method chaining.
      */
-    public setTemplate(template: string | null): this {
+    public setTemplate(template: string): this {
         this.template = template;
         this.injectTemplateScript();
         return this;

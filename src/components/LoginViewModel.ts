@@ -1,4 +1,4 @@
-import { BaseViewModel } from '../core/BaseViewModel';
+import { BaseViewModel } from '@core/BaseViewModel';
 import page from 'page';
 
 export class LoginViewModel extends BaseViewModel {
