@@ -1,4 +1,4 @@
-import { BaseViewModel, renderView } from '../core/BaseViewModel';
+import { BaseViewModel, renderView } from '@core/BaseViewModel';
 
 export class DashboardViewModel extends BaseViewModel {
     private contentContainer = 'dashboard-content';

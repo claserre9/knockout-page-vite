@@ -13,6 +13,7 @@
     },
     "devDependencies": {
         "@types/knockout": "^3.4.77",
+        "@types/node": "^24.1.0",
         "@types/page": "^1.11.9",
         "@typescript-eslint/eslint-plugin": "^8.38.0",
         "@typescript-eslint/parser": "^8.38.0",
