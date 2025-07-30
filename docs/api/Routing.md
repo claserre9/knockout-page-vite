@@ -15,6 +15,7 @@ export interface RouteConfig {
 ```
 
 **Properties:**
+
 - `path`: The URL path pattern to match (follows page.js syntax)
 - `handler`: The function to execute when the route is matched
 - `middleware` (optional): Array of middleware functions to execute before the handler
@@ -25,7 +26,7 @@ Global middleware functions are applied to all routes in the application.
 
 ```typescript
 export const globalMiddleware = [
-    logPathMiddleware
+    logPathMiddleware,
     // Add other global middleware here
 ];
 ```
@@ -37,18 +38,18 @@ Routes are defined as an array of `RouteConfig` objects:
 ```typescript
 export const routes: RouteConfig[] = [
     {
-        path: "/",
-        handler: (context) => renderView(AppViewModel, context)
+        path: '/',
+        handler: (context) => renderView(AppViewModel, context),
     },
     {
-        path: "/about",
-        handler: (context) => renderView(AboutViewModel, context)
+        path: '/about',
+        handler: (context) => renderView(AboutViewModel, context),
     },
     {
         // Catch-all route for 404 pages
-        path: "*",
-        handler: () => renderView(NotFoundViewModel)
-    }
+        path: '*',
+        handler: () => renderView(NotFoundViewModel),
+    },
 ];
 ```
 
@@ -59,12 +60,12 @@ The `registerRoutes` function is used to register all routes with page.js:
 ```typescript
 export const registerRoutes = (page: PageJS.Static): void => {
     // Register global middleware
-    globalMiddleware.forEach(middleware => {
-        page("*", middleware);
+    globalMiddleware.forEach((middleware) => {
+        page('*', middleware);
     });
 
     // Register all routes
-    routes.forEach(route => {
+    routes.forEach((route) => {
         if (route.middleware && route.middleware.length > 0) {
             // If a route has specific middleware, register it
             page(route.path, ...route.middleware, route.handler);

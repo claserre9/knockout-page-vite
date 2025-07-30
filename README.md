@@ -38,12 +38,12 @@ npm run dev
 
 ```typescript
 // src/components/HelloWorldViewModel.ts
-import { BaseViewModel } from "../core/BaseViewModel";
-import * as ko from "knockout";
+import { BaseViewModel } from '../core/BaseViewModel';
+import * as ko from 'knockout';
 
 export class HelloWorldViewModel extends BaseViewModel {
-    public message = ko.observable("Hello, World!");
-    
+    public message = ko.observable('Hello, World!');
+
     constructor(context: PageJS.Context | undefined) {
         super(context);
         this.setTemplate(`
@@ -53,10 +53,10 @@ export class HelloWorldViewModel extends BaseViewModel {
             </div>
         `);
     }
-    
+
     public changeMessage = (): void => {
-        this.message("Hello, Knockout Page Vite!");
-    }
+        this.message('Hello, Knockout Page Vite!');
+    };
 }
 ```
 
@@ -64,13 +64,13 @@ export class HelloWorldViewModel extends BaseViewModel {
 
 ```typescript
 // src/routes/routes.ts
-import { renderView } from "../core/BaseViewModel";
-import { HelloWorldViewModel } from "../components/HelloWorldViewModel";
+import { renderView } from '../core/BaseViewModel';
+import { HelloWorldViewModel } from '../components/HelloWorldViewModel';
 
 export const routes = [
     {
-        path: "/hello",
-        handler: (context) => renderView(HelloWorldViewModel, context)
+        path: '/hello',
+        handler: (context) => renderView(HelloWorldViewModel, context),
     },
     // Other routes...
 ];

@@ -1,11 +1,11 @@
-import {BaseViewModel} from "../core/BaseViewModel";
-import page from "page";
+import { BaseViewModel } from '../core/BaseViewModel';
+import page from 'page';
 
 export class LoginViewModel extends BaseViewModel {
     public performLogin = (): void => {
-        localStorage.setItem("auth_token", "demo");
-        localStorage.setItem("user_role", "admin");
-        page.redirect("/dashboard");
+        localStorage.setItem('auth_token', 'demo');
+        localStorage.setItem('user_role', 'admin');
+        page.redirect('/dashboard');
     };
 
     constructor(context: PageJS.Context | undefined) {

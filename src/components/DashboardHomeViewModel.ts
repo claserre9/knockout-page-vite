@@ -1,4 +1,4 @@
-import {BaseViewModel} from "../core/BaseViewModel";
+import { BaseViewModel } from '../core/BaseViewModel';
 
 export class DashboardHomeViewModel extends BaseViewModel {
     constructor(context: PageJS.Context | undefined) {

@@ -7,20 +7,23 @@ Welcome to the documentation for the Knockout Page Vite application framework. T
 ### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/knockout-page-vite.git
-   cd knockout-page-vite
-   ```
+
+    ```bash
+    git clone https://github.com/yourusername/knockout-page-vite.git
+    cd knockout-page-vite
+    ```
 
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+
+    ```bash
+    npm run dev
+    ```
 
 4. Open your browser and navigate to `http://localhost:5173`
 
@@ -28,44 +31,44 @@ Welcome to the documentation for the Knockout Page Vite application framework. T
 
 1. Create a new file in the `src/components` directory:
 
-   ```typescript
-   // src/components/HelloWorldViewModel.ts
-   import { BaseViewModel } from "../core/BaseViewModel";
-   import * as ko from "knockout";
+    ```typescript
+    // src/components/HelloWorldViewModel.ts
+    import { BaseViewModel } from '../core/BaseViewModel';
+    import * as ko from 'knockout';
 
-   export class HelloWorldViewModel extends BaseViewModel {
-       public message = ko.observable("Hello, World!");
-       
-       constructor(context: PageJS.Context | undefined) {
-           super(context);
-           this.setTemplate(`
-               <div class="hello-world">
-                   <h1 data-bind="text: message"></h1>
-                   <button data-bind="click: changeMessage">Change Message</button>
-               </div>
-           `);
-       }
-       
-       public changeMessage = (): void => {
-           this.message("Hello, Knockout Page Vite!");
-       }
-   }
-   ```
+    export class HelloWorldViewModel extends BaseViewModel {
+        public message = ko.observable('Hello, World!');
+
+        constructor(context: PageJS.Context | undefined) {
+            super(context);
+            this.setTemplate(`
+                <div class="hello-world">
+                    <h1 data-bind="text: message"></h1>
+                    <button data-bind="click: changeMessage">Change Message</button>
+                </div>
+            `);
+        }
+
+        public changeMessage = (): void => {
+            this.message('Hello, Knockout Page Vite!');
+        };
+    }
+    ```
 
 2. Add a route for your new view model in `src/routes/routes.ts`:
 
-   ```typescript
-   import { HelloWorldViewModel } from "../components/HelloWorldViewModel";
-   
-   export const routes = [
-       // Existing routes...
-       {
-           path: "/hello",
-           handler: (context) => renderView(HelloWorldViewModel, context)
-       },
-       // ...
-   ];
-   ```
+    ```typescript
+    import { HelloWorldViewModel } from '../components/HelloWorldViewModel';
+
+    export const routes = [
+        // Existing routes...
+        {
+            path: '/hello',
+            handler: (context) => renderView(HelloWorldViewModel, context),
+        },
+        // ...
+    ];
+    ```
 
 3. Navigate to `/hello` in your browser to see your new view model in action.
 

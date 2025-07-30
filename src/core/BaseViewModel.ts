@@ -1,4 +1,4 @@
-import { applyBindings, cleanNode, dataFor } from "knockout";
+import { applyBindings, cleanNode, dataFor } from 'knockout';
 
 export class BaseViewModel {
     protected template: string | null = null;
@@ -20,14 +20,21 @@ export class BaseViewModel {
      * @returns The instance of BaseViewModel to allow method chaining.
      * @throws {Error} If the template is not set before rendering.
      */
-    public render(selector = "app", context: PageJS.Context | undefined = undefined): this {
+    public render(
+        selector = 'app',
+        context: PageJS.Context | undefined = undefined
+    ): this {
         if (this.isDestroyed) {
-            console.warn("Attempting to render a destroyed view model. Creating fresh bindings.");
+            console.warn(
+                'Attempting to render a destroyed view model. Creating fresh bindings.'
+            );
             this.isDestroyed = false;
         }
 
         if (!this.template) {
-            throw new Error("Template must be set before rendering. Use setTemplate() first.");
+            throw new Error(
+                'Template must be set before rendering. Use setTemplate() first.'
+            );
         }
 
         this.selector = selector;
@@ -43,7 +50,11 @@ export class BaseViewModel {
      * @param selector - The container's ID or selector where the template should be rendered.
      * @returns The instance of BaseViewModel to allow method chaining.
      */
-    public renderTemplate(template: string | null, context: PageJS.Context | undefined = undefined, selector = "app"): this {
+    public renderTemplate(
+        template: string | null,
+        context: PageJS.Context | undefined = undefined,
+        selector = 'app'
+    ): this {
         return this.setTemplate(template).render(selector, context);
     }
 
@@ -54,14 +65,16 @@ export class BaseViewModel {
         if (this.isDestroyed) return;
 
         if (!this.selector) {
-            console.error("Selector is not defined. Unable to destroy the view.");
+            console.error(
+                'Selector is not defined. Unable to destroy the view.'
+            );
             return;
         }
 
         const element = document.getElementById(this.selector);
         if (element) {
             cleanNode(element);
-            element.innerHTML = "";
+            element.innerHTML = '';
             this.isDestroyed = true;
         } else {
             console.error(`Element with ID "${this.selector}" not found.`);
@@ -111,7 +124,7 @@ export class BaseViewModel {
      */
     private loadTemplate(selector: string): void {
         if (!this.template) {
-            throw new Error("Template is not set. Call setTemplate() first.");
+            throw new Error('Template is not set. Call setTemplate() first.');
         }
 
         const container = this.getOrCreateContainer(selector);
@@ -128,11 +141,13 @@ export class BaseViewModel {
         let container = document.getElementById(selector);
 
         if (!container) {
-            container = document.createElement("div");
+            container = document.createElement('div');
             container.id = selector;
 
             if (!document.body) {
-                throw new Error("Document body not available. Cannot create container.");
+                throw new Error(
+                    'Document body not available. Cannot create container.'
+                );
             }
 
             document.body.appendChild(container);
@@ -147,7 +162,7 @@ export class BaseViewModel {
      */
     protected initializeContainer(container: HTMLElement): void {
         cleanNode(container);
-        container.innerHTML = this.template || "";
+        container.innerHTML = this.template || '';
         applyBindings(this, container);
         this.onTemplateRendered();
     }
@@ -158,11 +173,11 @@ export class BaseViewModel {
      */
     public renderHtml(): string {
         if (!this.template) {
-            console.warn("Template is not set. Returning empty string.");
-            return "";
+            console.warn('Template is not set. Returning empty string.');
+            return '';
         }
 
-        const container = document.createElement("div");
+        const container = document.createElement('div');
         this.initializeContainer(container);
         this.isSubTemplate = true;
         return container.innerHTML;
@@ -176,12 +191,14 @@ export class BaseViewModel {
 
         // Check if a script with the same templateName already exists
         if (document.getElementById(this.templateName)) {
-            console.warn(`Template with id '${this.templateName}' already exists.`);
+            console.warn(
+                `Template with id '${this.templateName}' already exists.`
+            );
             return;
         }
 
-        const scriptElement = document.createElement("script");
-        scriptElement.type = "text/html";
+        const scriptElement = document.createElement('script');
+        scriptElement.type = 'text/html';
         scriptElement.id = this.templateName;
         scriptElement.innerHTML = this.template;
         document.body.appendChild(scriptElement);
@@ -194,7 +211,7 @@ export class BaseViewModel {
     public buildTemplateScript(): string {
         return this.template
             ? `<script type="text/html" id="${this.templateName}">${this.template}</script>`
-            : "";
+            : '';
     }
 }
 
@@ -208,7 +225,7 @@ export class BaseViewModel {
 export const renderView = (
     ViewModel: new (context?: PageJS.Context) => BaseViewModel,
     context?: PageJS.Context,
-    selector = "app"
+    selector = 'app'
 ): BaseViewModel => {
     const viewModel = new ViewModel(context);
     viewModel.render(selector, context);
