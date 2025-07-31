@@ -82,13 +82,13 @@ Welcome to the documentation for the Knockout Page Vite application framework. T
 
 ### Usage Examples
 
-- [View Model Patterns](examples/ViewModelPatterns.md) - Examples of common view model patterns
-- [Routing Examples](examples/RoutingExamples.md) - Examples of routing configurations
-- [Middleware Examples](examples/MiddlewareExamples.md) - Examples of middleware usage
+- [View Model Patterns](../examples/ViewModelPatterns.md) - Examples of common view model patterns
+- [Routing Examples](../examples/RoutingExamples.md) - Examples of routing configurations
+- [Middleware Examples](../examples/MiddlewareExamples.md) - Examples of middleware usage
 
 ### Architecture
 
-- [Architecture Documentation](architecture.md) - Overview of the application architecture, component lifecycle, and design decisions
+- [Architecture Documentation](architecture/README.md) - Overview of the application architecture, component lifecycle, and design decisions
 
 ### Improvement Tasks
 
