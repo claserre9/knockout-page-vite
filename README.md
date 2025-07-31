@@ -1,24 +1,22 @@
 # Knockout Page Vite
 
-A modern single-page application framework built with Knockout.js, Page.js, and Vite.
+A modern single-page application framework built with [Knockout.js](https://knockoutjs.com/), [Page.js](https://github.com/visionmedia/page.js), and [Vite](https://vitejs.dev/).
 
-## Overview
-
-Knockout Page Vite is a lightweight framework for building single-page applications using:
-
-- **[Knockout.js](https://knockoutjs.com/)** for MVVM data binding
-- **[Page.js](https://github.com/visionmedia/page.js)** for client-side routing
-- **[Vite](https://vitejs.dev/)** for fast development and optimized builds
-- **[TypeScript](https://www.typescriptlang.org/)** for type safety
-
-The framework provides a structured approach to building SPAs with a focus on:
+## Features
 
 - Component-based architecture
-- Declarative routing
-- Middleware for cross-cutting concerns
-- Strong typing with TypeScript
+- Declarative routing with middleware support
+- TypeScript for type safety
+- Fast development with Vite and hot module replacement
 
-## Installation
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) 18 or later
+- npm
+
+### Installation
 
 ```bash
 # Clone the repository
@@ -27,90 +25,50 @@ cd knockout-page-vite
 
 # Install dependencies
 npm install
+```
 
+### Development
+
+```bash
 # Start the development server
 npm run dev
+
+# Lint source files
+npm run lint
 ```
 
-## Usage
+### Production Build
 
-### Creating a View Model
+```bash
+# Build for production
+npm run build
 
-```typescript
-// src/components/HelloWorldViewModel.ts
-import { BaseViewModel } from '../core/BaseViewModel';
-import * as ko from 'knockout';
-
-export class HelloWorldViewModel extends BaseViewModel {
-    public message = ko.observable('Hello, World!');
-
-    constructor(context: PageJS.Context | undefined) {
-        super(context);
-        this.setTemplate(`
-            <div class="hello-world">
-                <h1 data-bind="text: message"></h1>
-                <button data-bind="click: changeMessage">Change Message</button>
-            </div>
-        `);
-    }
-
-    public changeMessage = (): void => {
-        this.message('Hello, Knockout Page Vite!');
-    };
-}
+# Preview the production build
+npm run preview
 ```
 
-### Adding a Route
+## Project Structure
 
-```typescript
-// src/routes/routes.ts
-import { renderView } from '../core/BaseViewModel';
-import { HelloWorldViewModel } from '../components/HelloWorldViewModel';
-
-export const routes = [
-    {
-        path: '/hello',
-        handler: (context) => renderView(HelloWorldViewModel, context),
-    },
-    // Other routes...
-];
+```text
+/
+├─ src/           # Application source code
+├─ public/        # Static assets served by Vite
+├─ docs/          # Framework documentation
+├─ examples/      # Usage examples
+└─ ...
 ```
 
 ## Documentation
 
-Comprehensive documentation is available in the [docs](docs) directory:
-
-- [Quick Start Guide](docs/README.md#quick-start-guide)
-- [API Documentation](docs/README.md#api-documentation)
-- [Usage Examples](docs/README.md#usage-examples)
-- [Architecture Documentation](docs/architecture.md)
+- [Quick Start & Guides](docs/README.md)
+- [Architecture Overview](docs/architecture/README.md)
+- [API Reference](docs/README.md#api-documentation)
+- [Examples](examples)
 - [Improvement Tasks](docs/tasks.md)
-
-## Features
-
-- **Component-Based Architecture**: Build your application using reusable view models
-- **Declarative Routing**: Define routes with support for parameters and middleware
-- **Middleware System**: Add cross-cutting concerns like authentication and logging
-- **Nested Routes and Guards**: Create complex layouts with protected routes
-- **TypeScript Support**: Full type safety for your application code
-- **Fast Development**: Instant server start and hot module replacement with Vite
-
-## Development
-
-```bash
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## License
 
