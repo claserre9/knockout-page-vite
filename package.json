@@ -9,7 +9,10 @@
         "preview": "vite preview",
         "lint": "eslint --config .eslintrc.cjs . --ext .ts",
         "format": "prettier --write .",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "test": "vitest run",
+        "test:coverage": "vitest run --coverage",
+        "test:e2e": "playwright test"
     },
     "devDependencies": {
         "@types/knockout": "^3.4.77",
@@ -23,7 +26,11 @@
         "lint-staged": "^16.1.2",
         "prettier": "^3.6.2",
         "typescript": "~5.8.3",
-        "vite": "^7.0.4"
+        "vite": "^7.0.4",
+        "vitest": "^1.6.0",
+        "@vitest/coverage-v8": "^1.6.0",
+        "jsdom": "^24.0.0",
+        "@playwright/test": "^1.47.1"
     },
     "dependencies": {
         "knockout": "^3.5.1",

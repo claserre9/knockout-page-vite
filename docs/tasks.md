@@ -94,10 +94,10 @@ This document contains a comprehensive list of improvement tasks for the Knockou
     - [ ] Implement automated testing in CI
     - [ ] Set up automated deployments
 
-17. [ ] Enhance project structure
-    - [ ] Reorganize files for better discoverability
-    - [ ] Add proper README with setup instructions
-    - [ ] Create CONTRIBUTING.md with guidelines
+17. [x] Enhance project structure
+    - [x] Reorganize files for better discoverability
+    - [x] Add proper README with setup instructions
+    - [x] Create CONTRIBUTING.md with guidelines
 
 ## Security
 
