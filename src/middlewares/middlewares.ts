@@ -1,4 +1,5 @@
 import page from 'page';
+import { appStore } from '@store/AppStore';
 
 export function logPathMiddleware(
     context: { path: string },
@@ -12,8 +13,8 @@ export function logPathMiddleware(
 }
 
 export function authGuard(_context: PageJS.Context, next: () => void): void {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
+    const { authToken } = appStore.getState();
+    if (authToken) {
         next();
     } else {
         console.warn('Authentication required. Redirecting to login page.');
@@ -23,7 +24,7 @@ export function authGuard(_context: PageJS.Context, next: () => void): void {
 
 export function roleGuard(requiredRole: string) {
     return (_context: PageJS.Context, next: () => void): void => {
-        const userRole = localStorage.getItem('user_role');
+        const { userRole } = appStore.getState();
         if (userRole === requiredRole) {
             next();
         } else {

@@ -222,6 +222,25 @@ For shared state between components, the application can use several approaches:
     const user = JSON.parse(localStorage.getItem('user'));
     ```
 
+### Centralized Store
+
+A lightweight observable store is provided in `src/store`. It keeps global
+application state in a single Knockout observable and automatically persists
+changes to `localStorage` by default. Derived state can be defined using the
+store's `computed` helper:
+
+```typescript
+import { appStore, isAuthenticated } from '@store/AppStore';
+
+// Access or update state
+appStore.setState({ authToken: 'demo' });
+
+// Derived value
+if (isAuthenticated()) {
+    // user is logged in
+}
+```
+
 ## Data Flow
 
 The data flow in the application follows these patterns:

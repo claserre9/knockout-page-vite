@@ -136,6 +136,7 @@ Middleware functions can be used to:
 - Use Knockout observables for reactive state
 - Consider service singletons for shared state
 - Use the route context to pass state between routes
+- Persist global data using the built-in observable store in `src/store`
 
 ### Error Handling
 
