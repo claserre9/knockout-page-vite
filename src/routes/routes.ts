@@ -14,6 +14,7 @@ import { DashboardSettingsViewModel } from '@components/DashboardSettingsViewMod
 import { AdminViewModel } from '@components/AdminViewModel';
 import { LoginViewModel } from '@components/LoginViewModel';
 import { AccessDeniedViewModel } from '@components/AccessDeniedViewModel';
+import { ContactFormViewModel } from '@components/ContactFormViewModel';
 
 /**
  * Route configuration interface
@@ -82,6 +83,10 @@ export const routes: RouteConfig[] = [
     {
         path: '/login',
         handler: (context) => renderView(LoginViewModel, context),
+    },
+    {
+        path: '/contact',
+        handler: (context) => renderView(ContactFormViewModel, context),
     },
     {
         path: '/access-denied',
