@@ -6,7 +6,7 @@ import {
     authGuard,
     roleGuard,
 } from '@middlewares/middlewares';
-import { AboutViewModel } from '@components/AboutViewModel.ts';
+import { AboutViewModel } from '@components/AboutViewModel';
 import { DashboardViewModel } from '@components/DashboardViewModel';
 import { DashboardHomeViewModel } from '@components/DashboardHomeViewModel';
 import { DashboardProfileViewModel } from '@components/DashboardProfileViewModel';
@@ -15,6 +15,7 @@ import { AdminViewModel } from '@components/AdminViewModel';
 import { LoginViewModel } from '@components/LoginViewModel';
 import { AccessDeniedViewModel } from '@components/AccessDeniedViewModel';
 import { ContactFormViewModel } from '@components/ContactFormViewModel';
+import { SimpleFormViewModel } from '@components/SimpleFormViewModel';
 
 /**
  * Route configuration interface
@@ -87,6 +88,10 @@ export const routes: RouteConfig[] = [
     {
         path: '/contact',
         handler: (context) => renderView(ContactFormViewModel, context),
+    },
+    {
+        path: '/simple-form',
+        handler: (context) => renderView(SimpleFormViewModel, context),
     },
     {
         path: '/access-denied',

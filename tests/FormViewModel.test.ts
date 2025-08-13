@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { FormViewModel } from '../src/core/FormViewModel';
 
 class TestForm extends FormViewModel {
@@ -39,5 +39,31 @@ describe('FormViewModel', () => {
         expect(form.currentStep()).toBe(1);
         form.prevStep();
         expect(form.currentStep()).toBe(0);
+    });
+
+    it('submits and returns values without steps', () => {
+        class SimpleForm extends FormViewModel {
+            public name = this.registerField('name', '', [
+                {
+                    validator: (v) => typeof v === 'string' && v.length > 0,
+                    message: 'required',
+                },
+            ]);
+            public email = this.registerField('email', '', [
+                {
+                    validator: (v) => typeof v === 'string' && v.includes('@'),
+                    message: 'invalid',
+                },
+            ]);
+        }
+        const form = new SimpleForm();
+        const handler = vi.fn();
+        form.name('Alice');
+        form.email('alice@example.com');
+        form.submit(() => handler(form.getValues()));
+        expect(handler).toHaveBeenCalledWith({
+            name: 'Alice',
+            email: 'alice@example.com',
+        });
     });
 });

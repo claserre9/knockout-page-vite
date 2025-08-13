@@ -56,6 +56,14 @@ export class FormViewModel extends BaseViewModel {
         );
     }
 
+    public getValues(): Record<string, unknown> {
+        const values: Record<string, unknown> = {};
+        Object.keys(this.fields).forEach((name) => {
+            values[name] = this.fields[name]();
+        });
+        return values;
+    }
+
     public nextStep(): void {
         if (this.currentStep() >= this.steps.length - 1) return;
         if (this.validateStep(this.currentStep())) {
